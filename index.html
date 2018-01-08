@@ -2,7 +2,7 @@
     <head>
         <title>Cheap Morse</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-touch.js"></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-touch.js"></script> -->
         <!-- (from: https://stackoverflow.com/a/10614533/2885946) -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     </head>
@@ -24,12 +24,13 @@
         }
     </style>
     <script>
-            angular.module('morseApp', ['ngTouch'])
+            angular.module('morseApp', [])
                 .controller('morseCtrl', ['$scope', '$timeout', ($scope, $timeout) => {
                     $scope.long_threshold  = 250;
                     $scope.word_threshold = 1000;
                     $scope.signal = "";
                     $scope.input   = "";
+                    $scope.isTouchMode = true;
                     $scope.isDebugMode = false;
                     $scope.debugLogs = [];
 
@@ -89,9 +90,9 @@
                         "-.-.--" : "!"
                     }
                     
-                    $scope.mouseup = () => {
+                    $scope.mouseup = (e) => {
                         console.log('mouse up');
-                        $scope.debugLogs.push("mouse up");
+                        $scope.debugLogs.push(`mouse up: ${e}`);
                         
                         const passedMilli = new Date() - startDate;
                         console.log(passedMilli);
@@ -118,9 +119,9 @@
 
                     };
 
-                    $scope.mousedown = () => {
-                        console.log('mouse down');
-                        $scope.debugLogs.push("mouse down");
+                    $scope.mousedown = (e) => {
+                        console.log(`mouse down: ${e}`);
+                        $scope.debugLogs.push(`mouse down: ${e}`);
                         startDate = new Date();
 
                         if (timeoutId != null) {
@@ -137,13 +138,35 @@
                         $scope.input = "";
                     }
                 }])
+                // (from: https://st40.xyz/one-run/article/116/)
+                .directive('myTouchstart', [function() {
+                    return function(scope, element, attr) {
+                
+                        element.on('touchstart', function(event) {
+                            scope.$apply(function() { 
+                                scope.$eval(attr.myTouchstart); 
+                            });
+                        });
+                    };
+                }]).directive('myTouchend', [function() {
+                    return function(scope, element, attr) {
+                
+                        element.on('touchend', function(event) {
+                            scope.$apply(function() { 
+                                scope.$eval(attr.myTouchend); 
+                            });
+                        });
+                    };
+                }]);
             </script>
 
     <body>
         <div ng-controller="morseCtrl">
-            <a ng-mouseup="mouseup()" ng-mousedown="mousedown()" ng-touchstart='mousedown()' ng-touchend='mouseup()' class='morse_button'></a><br>
+            <a ng-if='isTouchMode' my-touchstart='mousedown($event)' my-touchend='mouseup($event)' class='morse_button'></a><br>
+            <a ng-if='!isTouchMode' ng-mousedown='mousedown($event)' ng-mouseup='mouseup($event)' class='morse_button'></a><br>
             long_threshold:<input type="number" ng-model="long_threshold"><br>
             word threshold:<input type="number" ng-model="word_threshold"><br>
+            Touch mode: <input type="checkbox" ng-model="isTouchMode"><br>            
             Debug mode: <input type="checkbox" ng-model="isDebugMode"><br>
             <button ng-click='clearInput()'>Clear input</button><br>
             <div class='morse_input'>{{input}}</div> 
