@@ -30,6 +30,8 @@
                     $scope.word_threshold = 1000;
                     $scope.signal = "";
                     $scope.input   = "";
+                    $scope.isDebugMode = false;
+                    $scope.debugLogs = [];
 
                     let timeoutId = null;
                     
@@ -89,6 +91,8 @@
                     
                     $scope.mouseup = () => {
                         console.log('mouse up');
+                        $scope.debugLogs.push("mouse up");
+                        
                         const passedMilli = new Date() - startDate;
                         console.log(passedMilli);
 
@@ -100,6 +104,7 @@
 
                         timeoutId = $timeout(() => {
                             console.log('WORD END!');
+                            $scope.debugLogs.push("world end");                        
                             if ($scope.signal in signalToChar){
                                 $scope.input += signalToChar[$scope.signal];
                             } else {
@@ -115,6 +120,7 @@
 
                     $scope.mousedown = () => {
                         console.log('mouse down');
+                        $scope.debugLogs.push("mouse down");
                         startDate = new Date();
 
                         if (timeoutId != null) {
@@ -138,9 +144,13 @@
             <a ng-mouseup="mouseup()" ng-mousedown="mousedown()" ng-touchend='mousedown()' class='morse_button'></a><br>
             long_threshold:<input type="number" ng-model="long_threshold"><br>
             word threshold:<input type="number" ng-model="word_threshold"><br>
+            Debug mode: <input type="checkbox" ng-model="isDebugMode"><br>
             <button ng-click='clearInput()'>Clear input</button><br>
             <div class='morse_input'>{{input}}</div> 
-            <div class='morse_input'>{{signal}}</div>       
+            <div class='morse_input'>{{signal}}</div>
+            <ul ng-show="isDebugMode">
+                <li ng-repeat="debugLog in debugLogs track by $index">{{debugLog}}</li>
+            <ul>
         </div>
     </body>
 </html>
