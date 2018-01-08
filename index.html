@@ -1,0 +1,138 @@
+<html ng-app="morseApp">
+    <head>
+        <title>Cheap Morse</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+    </head>
+    
+    <style>
+        .morse_button{
+            width: 200px;
+            height: 50px;
+        }
+
+        .morse_input{
+            font-weight: bold;
+            font-size: 50px;
+        }
+    </style>
+    <script>
+            angular.module('morseApp', [])
+                .controller('morseCtrl', ['$scope', '$timeout', ($scope, $timeout) => {
+                    $scope.long_threshold  = 250;
+                    $scope.word_threshold = 1000;
+                    $scope.signal = "";
+                    $scope.input   = "";
+
+                    let timeoutId = null;
+                    
+                    let startDate = new Date();
+
+                    const signalToChar = {
+                        ".-"     : "a",
+                        "-..."   : "b",
+                        "-.-."   : "c",
+                        "-.."    : "d",
+                        "."      : "e",
+                        "..-."   : "f",
+                        "--."    : "g",
+                        "...."   : "h",
+                        ".."     : "i",
+                        ".---"   : "j",
+                        "-.-"    : "k",
+                        ".-.."   : "l",
+                        "--"     : "m",
+                        "-."     : "n",
+                        "---"    : "o",
+                        ".--."   : "p",
+                        "--.-"   : "q",
+                        ".-."    : "r",
+                        "..."    : "s",
+                        "-"      : "t",
+                        "..-"    : "u",
+                        "...-"   : "v",
+                        ".--"    : "w",
+                        "-..-"   : "x",
+                        "-.--"   : "y",
+                        "--.."   : "z",
+                        "-----"  : "0",
+                        ".----"  : "1",
+                        "..---"  : "2",
+                        "...--"  : "3",
+                        "....-"  : "4",
+                        "....."  : "5",
+                        "-...."  : "6",
+                        "--..."  : "7",
+                        "---.."  : "8",
+                        "----."  : "9",
+                        ".-.-.-" : ".",
+                        "--..--" : ",",
+                        "---..." : ":",
+                        "..--.." : "?",
+                        ".----." : "'",
+                        "-....-" : "-",
+                        "-..-."  : "/",
+                        "-.--.-" : "(",
+                        //            "-.--.-" : ")",
+                        ".-..-." : "\"",
+                        ".--.-." : "@",
+                        "-...-"  : "=",
+                        "-.-.--" : "!"
+                    }
+                    
+                    $scope.mouseup = () => {
+                        console.log('mouse up');
+                        const passedMilli = new Date() - startDate;
+                        console.log(passedMilli);
+
+                        if (passedMilli <= $scope.long_threshold){
+                            $scope.signal += '.';
+                        } else if (passedMilli <= $scope.word_threshold) {
+                            $scope.signal += '-';
+                        }
+
+                        timeoutId = $timeout(() => {
+                            console.log('WORD END!');
+                            if ($scope.signal in signalToChar){
+                                $scope.input += signalToChar[$scope.signal];
+                            } else {
+                                $scope.input += "[?]"
+                            }
+                            
+                            timeoutId = null;
+                            $scope.signal = "";
+
+                        }, $scope.word_threshold)
+
+                    };
+
+                    $scope.mousedown = () => {
+                        console.log('mouse down');
+                        startDate = new Date();
+
+                        if (timeoutId != null) {
+                            $timeout.cancel(timeoutId)
+                        }
+
+                    };
+
+                    // $scope.morseSignal = () => {
+                    //     return $scope.signals.join('')
+                    // };
+
+                    $scope.clearInput = () => {
+                        $scope.input = "";
+                    }
+                }])
+            </script>
+
+    <body>
+        <div ng-controller="morseCtrl">
+            <button ng-mouseup="mouseup()" ng-mousedown="mousedown()" class='morse_button'></button><br>
+            long_threshold:<input type="number" ng-model="long_threshold"><br>
+            word threshold:<input type="number" ng-model="word_threshold"><br>
+            <button ng-click='clearInput()'>Clear input</button><br>
+            <div class='morse_input'>{{input}}</div> 
+            <div class='morse_input'>{{signal}}</div>       
+        </div>
+    </body>
+</html>
