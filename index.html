@@ -141,7 +141,7 @@
 
     <body>
         <div ng-controller="morseCtrl">
-            <a ng-mouseup="mouseup()" ng-mousedown="mousedown()" ng-touchend='mousedown()' class='morse_button'></a><br>
+            <a ng-mouseup="mouseup()" ng-mousedown="mousedown()" ng-touchstart='mousedown()' ng-touchend='mouseup()' class='morse_button'></a><br>
             long_threshold:<input type="number" ng-model="long_threshold"><br>
             word threshold:<input type="number" ng-model="word_threshold"><br>
             Debug mode: <input type="checkbox" ng-model="isDebugMode"><br>
