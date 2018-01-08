@@ -2,6 +2,7 @@
     <head>
         <title>Cheap Morse</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-touch.js"></script>
         <!-- (from: https://stackoverflow.com/a/10614533/2885946) -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     </head>
@@ -23,7 +24,7 @@
         }
     </style>
     <script>
-            angular.module('morseApp', [])
+            angular.module('morseApp', ['ngTouch'])
                 .controller('morseCtrl', ['$scope', '$timeout', ($scope, $timeout) => {
                     $scope.long_threshold  = 250;
                     $scope.word_threshold = 1000;
@@ -134,7 +135,7 @@
 
     <body>
         <div ng-controller="morseCtrl">
-            <a ng-mouseup="mouseup()" ng-mousedown="mousedown()" class='morse_button'></a><br>
+            <a ng-mouseup="mouseup()" ng-mousedown="mousedown()" ng-touchend='mousedown()' class='morse_button'></a><br>
             long_threshold:<input type="number" ng-model="long_threshold"><br>
             word threshold:<input type="number" ng-model="word_threshold"><br>
             <button ng-click='clearInput()'>Clear input</button><br>
