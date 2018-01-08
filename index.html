@@ -10,6 +10,8 @@
         .morse_button{
             width: 100%;
             height: 100px;
+            display: block;
+            background: #ccc;
             font-size: 3em;
             /* (from: https://stackoverflow.com/a/923804/2885946) */
             -webkit-user-select: none; 
@@ -132,7 +134,7 @@
 
     <body>
         <div ng-controller="morseCtrl">
-            <button ng-mouseup="mouseup()" ng-mousedown="mousedown()" class='morse_button'></button><br>
+            <a ng-mouseup="mouseup()" ng-mousedown="mousedown()" class='morse_button'></a><br>
             long_threshold:<input type="number" ng-model="long_threshold"><br>
             word threshold:<input type="number" ng-model="word_threshold"><br>
             <button ng-click='clearInput()'>Clear input</button><br>
