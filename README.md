@@ -2,7 +2,7 @@
 
 ## Page
 
-https://nwtgck.github.io/morse-web
+https://nwtgck.github.io/morse-web/
 
 ## Usage
 
