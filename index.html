@@ -44,6 +44,7 @@
                     $scope.input   = "";
                     $scope.shortMilliLogs = [];
                     $scope.longMilliLogs = [];
+                    $scope.latestMilli = null;
                     $scope.isTouchMode = getDevice != "other";
                     $scope.isDebugMode = false;
                     $scope.debugLogs = [];
@@ -110,6 +111,9 @@
                         
                         const passedMilli = new Date() - startDate;
                         console.log(passedMilli);
+
+                        // Update the latest milli
+                        $scope.latestMilli = passedMilli;
 
                         if (passedMilli <= $scope.shortThreshold){
                             $scope.signal += '.';
@@ -196,6 +200,7 @@
             Debug mode: <input type="checkbox" ng-model="isDebugMode"><br>
             Average short: {{shortMilliAvg()}}ms<br>
             Average long: {{longMilliAvg()}}ms<br>            
+            Latest Milli: {{latestMilli}}ms<br>
             <button ng-click='clearInput()'>Clear input</button><br>
             <div class='morse_input'>{{input}}</div> 
             <div class='morse_input'>{{signal}}</div>
