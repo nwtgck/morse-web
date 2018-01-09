@@ -46,7 +46,7 @@
                     $scope.shortThreshold  = 200;
                     $scope.wordThreshold = 1000;
                     $scope.signal = "";
-                    $scope.input   = "";
+                    $scope.input  = "";
                     $scope.isPussing = false;
                     $scope.shortMilliLogs = [];
                     $scope.longMilliLogs = [];
@@ -210,8 +210,8 @@
             Average long: {{longMilliAvg()}}ms<br>            
             Latest Milli: {{latestMilli}}ms<br>
             <button ng-click='clearInput()'>Clear input</button><br>
-            <div class='morse_input'>{{input}}</div> 
-            <div class='morse_input'>{{signal}}</div>
+            <span class='morse_input' style='word-wrap: break-word'>{{input}}</span> 
+            <span class='morse_input' style='color: #555'>{{signal}}</span>
             <ul ng-show="isDebugMode">
                 <li ng-repeat="debugLog in debugLogs track by $index">{{debugLog}}</li>
             <ul>
