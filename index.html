@@ -22,6 +22,11 @@
             font-weight: bold;
             font-size: 50px;
         }
+
+        /* (from: http://www.htmq.com/css3/box-shadow.shtml) */
+        .box_shadow {
+            box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
+        }	
     </style>
     <script>
             // (from: https://qiita.com/Evolutor_web/items/655c6402aece800fd081)
@@ -42,6 +47,7 @@
                     $scope.wordThreshold = 1000;
                     $scope.signal = "";
                     $scope.input   = "";
+                    $scope.isPussing = false;
                     $scope.shortMilliLogs = [];
                     $scope.longMilliLogs = [];
                     $scope.latestMilli = null;
@@ -109,6 +115,7 @@
                         console.log('mouse up');
                         $scope.debugLogs.push(`mouse up: ${e}`);
                         
+                        $scope.isPussing = false;
                         const passedMilli = new Date() - startDate;
                         console.log(passedMilli);
 
@@ -143,6 +150,7 @@
                         console.log(`mouse down: ${e}`);
                         $scope.debugLogs.push(`mouse down: ${e}`);
                         startDate = new Date();
+                        $scope.isPussing = true;
 
                         if (timeoutId != null) {
                             $timeout.cancel(timeoutId)
@@ -192,8 +200,8 @@
 
     <body>
         <div ng-controller="morseCtrl">
-            <a ng-if='isTouchMode' my-touchstart='mousedown($event)' my-touchend='mouseup($event)' class='morse_button'></a><br>
-            <a ng-if='!isTouchMode' ng-mousedown='mousedown($event)' ng-mouseup='mouseup($event)' class='morse_button'></a><br>
+            <a ng-if='isTouchMode' my-touchstart='mousedown($event)' my-touchend='mouseup($event)' class='morse_button' ng-class="{box_shadow: !isPussing}"></a><br>
+            <a ng-if='!isTouchMode' ng-mousedown='mousedown($event)' ng-mouseup='mouseup($event)' class='morse_button' ng-class="{box_shadow: !isPussing}"></a><br>
             short threshold:<input type="number" ng-model="shortThreshold"><br>
             word threshold:<input type="number" ng-model="wordThreshold"><br>
             Touch mode: <input type="checkbox" ng-model="isTouchMode"><br>            
