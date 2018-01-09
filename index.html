@@ -26,8 +26,8 @@
     <script>
             angular.module('morseApp', [])
                 .controller('morseCtrl', ['$scope', '$timeout', ($scope, $timeout) => {
-                    $scope.long_threshold  = 250;
-                    $scope.word_threshold = 1000;
+                    $scope.shortThreshold  = 250;
+                    $scope.wordThreshold = 1000;
                     $scope.signal = "";
                     $scope.input   = "";
                     $scope.isTouchMode = true;
@@ -97,9 +97,9 @@
                         const passedMilli = new Date() - startDate;
                         console.log(passedMilli);
 
-                        if (passedMilli <= $scope.long_threshold){
+                        if (passedMilli <= $scope.shortThreshold){
                             $scope.signal += '.';
-                        } else if (passedMilli <= $scope.word_threshold) {
+                        } else if (passedMilli <= $scope.wordThreshold) {
                             $scope.signal += '-';
                         }
 
@@ -115,7 +115,7 @@
                             timeoutId = null;
                             $scope.signal = "";
 
-                        }, $scope.word_threshold)
+                        }, $scope.wordThreshold)
 
                     };
 
@@ -164,8 +164,8 @@
         <div ng-controller="morseCtrl">
             <a ng-if='isTouchMode' my-touchstart='mousedown($event)' my-touchend='mouseup($event)' class='morse_button'></a><br>
             <a ng-if='!isTouchMode' ng-mousedown='mousedown($event)' ng-mouseup='mouseup($event)' class='morse_button'></a><br>
-            long_threshold:<input type="number" ng-model="long_threshold"><br>
-            word threshold:<input type="number" ng-model="word_threshold"><br>
+            short threshold:<input type="number" ng-model="shortThreshold"><br>
+            word threshold:<input type="number" ng-model="wordThreshold"><br>
             Touch mode: <input type="checkbox" ng-model="isTouchMode"><br>            
             Debug mode: <input type="checkbox" ng-model="isDebugMode"><br>
             <button ng-click='clearInput()'>Clear input</button><br>
