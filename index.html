@@ -38,10 +38,12 @@
 
             angular.module('morseApp', [])
                 .controller('morseCtrl', ['$scope', '$timeout', ($scope, $timeout) => {
-                    $scope.shortThreshold  = 250;
+                    $scope.shortThreshold  = 200;
                     $scope.wordThreshold = 1000;
                     $scope.signal = "";
                     $scope.input   = "";
+                    $scope.shortMilliLogs = [];
+                    $scope.longMilliLogs = [];
                     $scope.isTouchMode = getDevice != "other";
                     $scope.isDebugMode = false;
                     $scope.debugLogs = [];
@@ -111,8 +113,10 @@
 
                         if (passedMilli <= $scope.shortThreshold){
                             $scope.signal += '.';
+                            $scope.shortMilliLogs.push(passedMilli);
                         } else if (passedMilli <= $scope.wordThreshold) {
                             $scope.signal += '-';
+                            $scope.longMilliLogs.push(passedMilli);
                         }
 
                         timeoutId = $timeout(() => {
@@ -149,6 +153,16 @@
                     $scope.clearInput = () => {
                         $scope.input = "";
                     }
+
+                    $scope.shortMilliAvg = () => {
+                        const len = $scope.shortMilliLogs.length;
+                        return $scope.shortMilliLogs.reduce(function(s, e){return s + e}, 0) / len;
+                    }
+
+                    $scope.longMilliAvg = () => {
+                        const len = $scope.longMilliLogs.length;
+                        return $scope.longMilliLogs.reduce(function(s, e){return s + e}, 0) / len;
+                    }
                 }])
                 // (from: https://st40.xyz/one-run/article/116/)
                 .directive('myTouchstart', [function() {
@@ -180,6 +194,8 @@
             word threshold:<input type="number" ng-model="wordThreshold"><br>
             Touch mode: <input type="checkbox" ng-model="isTouchMode"><br>            
             Debug mode: <input type="checkbox" ng-model="isDebugMode"><br>
+            Average short: {{shortMilliAvg()}}ms<br>
+            Average long: {{longMilliAvg()}}ms<br>            
             <button ng-click='clearInput()'>Clear input</button><br>
             <div class='morse_input'>{{input}}</div> 
             <div class='morse_input'>{{signal}}</div>
