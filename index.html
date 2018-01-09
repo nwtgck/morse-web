@@ -24,13 +24,25 @@
         }
     </style>
     <script>
+            // (from: https://qiita.com/Evolutor_web/items/655c6402aece800fd081)
+            const getDevice = (function(){
+                var ua = navigator.userAgent;
+                if(ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0){
+                    return 'sp';
+                }else if(ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0){
+                    return 'tab';
+                }else{
+                    return 'other';
+                }
+            })();
+
             angular.module('morseApp', [])
                 .controller('morseCtrl', ['$scope', '$timeout', ($scope, $timeout) => {
                     $scope.shortThreshold  = 250;
                     $scope.wordThreshold = 1000;
                     $scope.signal = "";
                     $scope.input   = "";
-                    $scope.isTouchMode = true;
+                    $scope.isTouchMode = getDevice != "other";
                     $scope.isDebugMode = false;
                     $scope.debugLogs = [];
 
