@@ -191,6 +191,26 @@
                         const len = $scope.longMilliLogs.length;
                         return $scope.longMilliLogs.reduce(function(s, e){return s + e}, 0) / len;
                     }
+
+                    // (from: https://css-tricks.com/snippets/javascript/javascript-keycodes/)
+                    document.addEventListener("keydown", (event) => {
+                      if(event.which == 32){
+                          console.log("space down");
+                          $scope.$apply(() => {
+                            $scope.mousedown(event);                          
+                          });
+                      }
+                    });
+
+                    document.addEventListener("keyup", (event) => {
+                      if(event.which == 32){
+                          console.log("space up");
+                          $scope.$apply(() => {
+                            $scope.mouseup(event);                          
+                          });
+                      }
+                    })
+
                 }])
                 // (from: https://st40.xyz/one-run/article/116/)
                 .directive('myTouchstart', [function() {
