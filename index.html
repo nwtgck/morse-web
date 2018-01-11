@@ -43,8 +43,8 @@
 
             angular.module('morseApp', [])
                 .controller('morseCtrl', ['$scope', '$timeout', ($scope, $timeout) => {
-                    $scope.shortThreshold  = 200;
-                    $scope.wordThreshold = 1000;
+                    $scope.shortThreshold  = 120;
+                    $scope.wordThreshold = 500;
                     $scope.signal = "";
                     $scope.input  = "";
                     $scope.isPussing = false;
