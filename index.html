@@ -6,30 +6,8 @@
         <script src="app.js"></script>        
         <!-- (from: https://stackoverflow.com/a/10614533/2885946) -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <link rel="stylesheet" href="style.css">
     </head>
-    
-    <style>
-        .morse_button{
-            width: 100%;
-            height: 100px;
-            display: block;
-            background: #ccc;
-            font-size: 3em;
-            /* (from: https://stackoverflow.com/a/923804/2885946) */
-            -webkit-user-select: none; 
-        }
-
-        .morse_input{
-            font-weight: bold;
-            font-size: 50px;
-        }
-
-        /* (from: http://www.htmq.com/css3/box-shadow.shtml) */
-        .box_shadow {
-            box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
-        }	
-    </style>
-
     <body>
         <div ng-controller="morseCtrl">
             <a ng-if='isTouchMode' my-touchstart='mousedown($event)' my-touchend='mouseup($event)' class='morse_button' ng-class="{box_shadow: !isPussing}"></a><br>
