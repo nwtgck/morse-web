@@ -1,5 +1,7 @@
 # Morse Input
 
+![demo](demo.gif)
+
 ## Page
 
 https://nwtgck.github.io/morse-web/
