@@ -46,6 +46,7 @@
                     $scope.shortThreshold  = 120;
                     $scope.longThreshold   = 1000;
                     $scope.letterThreshold = 500;
+                    $scope.wordThreshold   = 1000;
                     $scope.signal = "";
                     $scope.input  = "";
                     $scope.isPussing = false;
@@ -56,7 +57,8 @@
                     $scope.isDebugMode = false;
                     $scope.debugLogs = [];
 
-                    let timeoutId = null;
+                    let letterTimeoutId = null;
+                    let wordTimeoutId   = null;
                     
                     let startDate = new Date();
 
@@ -131,7 +133,7 @@
                             $scope.longMilliLogs.push(passedMilli);
                         }
 
-                        timeoutId = $timeout(() => {
+                        letterTimeoutId = $timeout(() => {
                             console.log('WORD END!');
                             $scope.debugLogs.push("world end");                        
                             if ($scope.signal in signalToChar){
@@ -140,8 +142,14 @@
                                 $scope.input += "[?]"
                             }
                             
-                            timeoutId = null;
+                            letterTimeoutId = null;
                             $scope.signal = "";
+
+                            wordTimeoutId = $timeout(() => {
+                                 // Add space
+                                $scope.input += " ";
+                                wordTimeoutId = null;
+                            }, $scope.wordThreshold)
 
                         }, $scope.letterThreshold)
 
@@ -153,8 +161,12 @@
                         startDate = new Date();
                         $scope.isPussing = true;
 
-                        if (timeoutId != null) {
-                            $timeout.cancel(timeoutId)
+                        if (letterTimeoutId != null) {
+                            $timeout.cancel(letterTimeoutId)
+                        }
+
+                        if (wordTimeoutId != null) {
+                            $timeout.cancel(wordTimeoutId)
                         }
 
                     };
@@ -206,6 +218,7 @@
             Short threshold:<input type="number" ng-model="shortThreshold"><br>
             Long threshold:<input type="number" ng-model="longThreshold"><br>
             Letter threshold:<input type="number" ng-model="letterThreshold"><br>
+            Word threshold:<input type="number" ng-model="wordThreshold"><br>
             Touch mode: <input type="checkbox" ng-model="isTouchMode"><br>            
             Debug mode: <input type="checkbox" ng-model="isDebugMode"><br>
             Average short: {{shortMilliAvg()}}ms<br>
