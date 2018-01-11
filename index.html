@@ -55,6 +55,7 @@
                     $scope.latestMilli = null;
                     $scope.isTouchMode = getDevice != "other";
                     $scope.isDebugMode = false;
+                    $scope.enableWordThreshold = true;
                     $scope.debugLogs = [];
 
                     let letterTimeoutId = null;
@@ -145,11 +146,13 @@
                             letterTimeoutId = null;
                             $scope.signal = "";
 
-                            wordTimeoutId = $timeout(() => {
-                                 // Add space
-                                $scope.input += " ";
-                                wordTimeoutId = null;
-                            }, $scope.wordThreshold)
+                            if ($scope.enableWordThreshold){
+                                wordTimeoutId = $timeout(() => {
+                                    // Add space
+                                    $scope.input += " ";
+                                    wordTimeoutId = null;
+                                }, $scope.wordThreshold)
+                            }
 
                         }, $scope.letterThreshold)
 
@@ -218,7 +221,8 @@
             Short threshold:<input type="number" ng-model="shortThreshold"><br>
             Long threshold:<input type="number" ng-model="longThreshold"><br>
             Letter threshold:<input type="number" ng-model="letterThreshold"><br>
-            Word threshold:<input type="number" ng-model="wordThreshold"><br>
+            Word threshold:<input type="number" ng-model="wordThreshold">
+            <input type="checkbox" ng-model="enableWordThreshold"><br>
             Touch mode: <input type="checkbox" ng-model="isTouchMode"><br>            
             Debug mode: <input type="checkbox" ng-model="isDebugMode"><br>
             Average short: {{shortMilliAvg()}}ms<br>
