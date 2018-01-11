@@ -136,7 +136,7 @@
                             $scope.debugLogs.push("world end");                        
                             if ($scope.signal in signalToChar){
                                 $scope.input += signalToChar[$scope.signal];
-                            } else {
+                            } else if ($scope.signal != ""){                            
                                 $scope.input += "[?]"
                             }
                             
