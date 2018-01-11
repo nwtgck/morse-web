@@ -49,6 +49,7 @@
                     $scope.wordThreshold   = 1000;
                     $scope.signal = "";
                     $scope.input  = "";
+                    $scope.isKeyDowning = false;
                     $scope.isPussing = false;
                     $scope.shortMilliLogs = [];
                     $scope.longMilliLogs = [];
@@ -196,15 +197,19 @@
                     document.addEventListener("keydown", (event) => {
                       if(event.which == 32){
                           console.log("space down");
-                          $scope.$apply(() => {
-                            $scope.mousedown(event);                          
-                          });
+                          if(!$scope.isKeyDowning){
+                            $scope.isKeyDowning = true;
+                            $scope.$apply(() => {
+                                $scope.mousedown(event);                          
+                            });
+                          }
                       }
                     });
 
                     document.addEventListener("keyup", (event) => {
                       if(event.which == 32){
                           console.log("space up");
+                          $scope.isKeyDowning = false;
                           $scope.$apply(() => {
                             $scope.mouseup(event);                          
                           });
