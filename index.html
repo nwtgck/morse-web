@@ -18,13 +18,15 @@
             Word threshold:<input type="number" ng-model="wordThreshold">
             <input type="checkbox" ng-model="enableWordThreshold"><br>
             Touch mode: <input type="checkbox" ng-model="isTouchMode"><br>            
-            Debug mode: <input type="checkbox" ng-model="isDebugMode"><br>
+            Cursor    : <input type="checkbox" ng-model="enableCursor"><br>
+            Debug mode: <input type="checkbox" ng-model="isDebugMode"><br>            
             Average short: {{shortMilliAvg()}}ms<br>
             Average long: {{longMilliAvg()}}ms<br>            
             Latest Milli: {{latestMilli}}ms<br>
             <button ng-click='clearInput()'>Clear input</button><br>
             <span class='morse_input' style='word-wrap: break-word'>{{input}}</span> 
             <span class='morse_input' style='color: #555'>{{signal}}</span>
+            <span class='cursor' ng-class='{blinking: !isPussing}' ng-show='enableCursor'>|</span>
             <ul ng-show="isDebugMode">
                 <li ng-repeat="debugLog in debugLogs track by $index">{{debugLog}}</li>
             <ul>

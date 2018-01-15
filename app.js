@@ -78,6 +78,7 @@ angular.module('morseApp', [])
         $scope.isTouchMode = getDevice != "other";
         $scope.isDebugMode = false;
         $scope.enableWordThreshold = true;
+        $scope.enableCursor = true;
         $scope.debugLogs = [];
 
         let letterTimeoutId = null;

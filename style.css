@@ -9,11 +9,27 @@
 }
 
 .morse_input{
-    font-weight: bold;
     font-size: 50px;
+    font-weight: bold;
 }
 
 /* (from: http://www.htmq.com/css3/box-shadow.shtml) */
 .box_shadow {
     box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
+}
+
+
+/* (from: https://qiita.com/zr_tex8r/items/6122e24878993cf59a9f) */
+@keyframes blink {
+    75% { opacity: 0.0; }
+}
+@-webkit-keyframes blink {
+    75% { opacity: 0.0; }
+}
+.blinking {
+    animation: blink 1s step-end infinite;
+    -webkit-animation: blink 1s step-end infinite;
+}
+.cursor{
+    font-size: 45px;
 }
